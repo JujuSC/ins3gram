@@ -120,7 +120,6 @@ abstract class BaseController extends Controller
         $filename = APPPATH . "Config/";
         $filename .= $admin ? "menu_admin.json" : "menu_front.json";
 
-
         if (!file_exists($filename)) {
             log_message('error', "Menu JSON file not found: $filename");
             return [];
