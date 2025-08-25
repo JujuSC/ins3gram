@@ -12,13 +12,12 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'Administrateur',
                 'slug' => 'administrateur',
-
             ],
             [
                 'name' => 'Utilisateur',
                 'slug' => 'utilisateur',
-            ]
-    ];
+            ],
+        ];
         $this->db->table('user_permission')->insertBatch($data);
     }
 }

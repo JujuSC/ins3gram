@@ -29,14 +29,14 @@ class Media extends Migration
                 'default' => 'user',
             ],
             'title' => [
-              'type' => 'VARCHAR',
-              'constraint' => '255',
-              'null' => true,
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true,
             ],
             'alt' => [
-              'type' => 'VARCHAR',
-              'constraint' => '255',
-              'null' => true,
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true,
             ],
             'created_at' => [
                 'type'       => 'DATETIME',

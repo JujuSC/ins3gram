@@ -1,2 +1,2 @@
 <?php
-    echo "coucou du dashboard";
+    echo "Coucou du dashboard";
