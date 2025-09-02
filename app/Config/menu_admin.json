@@ -11,6 +11,12 @@
     "icon": "<i class=\"nav-icon fas fa-martini-glass\"></i>",
     "class":""
 },
+  "brand": {
+    "title": "Marques",
+    "url": "/admin/brand",
+    "icon": "<i class=\"nav-icon fa-solid fa-wine-bottle\"></i>",
+    "class": ""
+  },
   "administration": {
     "title": "Administration",
     "url": "/",

@@ -22,4 +22,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('(:num)', 'Recipe::edit/$1');
         $routes->get('new', 'Recipe::create');
     });
+    $routes->group('brand', function($routes) {
+       $routes->get('/', 'Brand::index');
+       $routes->post('insert', 'Brand::insert');
+       $routes->post('update', 'Brand::update');
+       $routes->post('delete', 'Brand::delete');
+    });
 });
