@@ -13,7 +13,8 @@ class RecipeModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['name','description', 'alcool','id_user'];
-
+    protected $beforeInsert = ['validateAlcool'];
+    protected $beforeUpdate   = ['validateAlcool'];
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
@@ -21,12 +22,25 @@ class RecipeModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
-    protected $validationRules = [
-        'name'    => 'required|max_length[255]|is_unique[recipe.name,id,{id}]',
-        'alcool'  => 'permit_empty|in_list[0,1]',
-        'id_user' => 'permit_empty|integer',
-        'description' => 'permit_empty',
-    ];
+    protected function setInsertValidationRules(array $data) {
+        $this->validationRules = [
+            'name'    => 'required|max_length[255]|is_unique[recipe.name]',
+            'alcool'  => 'permit_empty|in_list[0,1,on]',
+            'id_user' => 'permit_empty|integer',
+            'description' => 'permit_empty',
+        ];
+        return $data;
+    }
+    protected function setUpdateValidationRules(array $data) {
+        $id = $data['data']['id_recipe'] ?? null;
+        $this->validationRules = [
+            'name'    => "required|max_length[255]|is_unique[recipe.name,id,$id]",
+            'alcool'  => 'permit_empty|in_list[0,1,on]',
+            'id_user' => 'permit_empty|integer',
+            'description' => 'permit_empty',
+        ];
+        return $data;
+    }
 
     protected $validationMessages = [
         'name' => [
@@ -42,4 +56,12 @@ class RecipeModel extends Model
         ],
     ];
 
+    protected function validateAlcool(array $data) {
+        if(isset($data['data']['alcool'])):
+            $data['data']['alcool'] = 1;
+        else:
+            $data['data']['alcool'] = 0;
+        endif;
+        return $data;
+    }
 }
