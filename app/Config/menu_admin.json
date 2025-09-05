@@ -17,6 +17,12 @@
     "icon": "<i class=\"nav-icon fa-solid fa-wine-bottle\"></i>",
     "class": ""
   },
+  "categing": {
+    "title": "Catégories",
+    "url": "/admin/categing",
+    "icon": "<i class=\"nav-icon fa-solid fa-folder-open\"></i>",
+    "class": ""
+  },
   "administration": {
     "title": "Administration",
     "url": "/",
