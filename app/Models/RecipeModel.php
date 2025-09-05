@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Traits\DataTableTrait;
 
 class RecipeModel extends Model
 {
+    use DataTableTrait;
     protected $table            = 'recipe';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -63,5 +65,25 @@ class RecipeModel extends Model
             $data['data']['alcool'] = 0;
         endif;
         return $data;
+    }
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => [
+                'name',
+                'description',
+                'alcool',
+                'user.username'
+            ],
+            'joins' => [
+                [
+                    'table' => 'user',
+                    'condition' => 'recipe.id_user = user.id',
+                    'type' => 'left'
+                ]
+            ],
+            'select' => 'recipe.*, user.username as user_username',
+            'with_deleted' => true
+        ];
     }
 }

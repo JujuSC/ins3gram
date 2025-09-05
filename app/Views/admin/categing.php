@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <?= form_open('admin/categing/insert') ?>
+            <?= form_open('admin/category-ingredient/insert') ?>
             <div class="card-header h4">
                 Créer une catégorie d'ingrédients
             </div>
@@ -53,7 +53,7 @@
         </div>
     </div>
 </div>
-<div class="modal" id="modalCategIng" tabindex="-1">
+<div class="modal" id="modalPerm" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -61,29 +61,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-floating mb-3">
+                <div class="form-floating">
                     <input type="text" class="form-control" id="modalNameInput" placeholder="Nom de la catégorie d'ingrédients" data-id="">
                     <label for="modalNameInput">Nom de la catégorie d'ingrédients</label>
                 </div>
-                <div class="form-floating">
-                    <select class="form-select" id="id_categ_parent" name="id_categ_parent">
-                        <option value="" selected>Choisir une categorie</option>
-                        <?php
-                        if(isset($categ) && !empty($categ)){
-                            foreach($categ as $c){ ?>
-                                <option value="<?= $c['id'] ?>">
-                                    <?= $c['name']; ?>
-                                </option>
-                            <?php }
-                        }
-                        ?>
-                    </select>
-                    <label for="id_categ_parent">Catégorie parente (optionnel)</label>
-                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" id="id_categ_parent" name="id_categ_parent">
+                    <option value="" selected>Choisir une categorie</option>
+                    <?php
+                    if(isset($categ) && !empty($categ)){
+                        foreach($categ as $c){ ?>
+                            <option value="<?= $c['id'] ?>">
+                                <?= $c['name']; ?>
+                            </option>
+                        <?php }
+                    }
+                    ?>
+                </select>
+                <label for="id_categ_parent">Catégorie parente (optionnel)</label>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
-                <button onclick="saveCategIng()" type="button" class="btn btn-primary">Sauvegarder</button>
+                <button onclick="saveBrand()" type="button" class="btn btn-primary">Sauvegarder</button>
             </div>
         </div>
     </div>
@@ -114,7 +114,7 @@
                                 <button onclick="showModal(${row.id},'${row.name}')"  class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button onclick="deleteCategIng(${row.id})" class="btn btn-sm btn-danger" title="Supprimer">
+                                <button onclick="deleteBrand(${row.id})" class="btn btn-sm btn-danger" title="Supprimer">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -133,28 +133,23 @@
         window.refreshTable = function() {
             table.ajax.reload(null, false); // false pour garder la pagination
         };
-
     });
-
-    const myModal = new bootstrap.Modal('#modalCategIng');
+    const myModal = new bootstrap.Modal('#modalBrand');
 
     function showModal(id, name) {
         $('#modalNameInput').val(name);
         $('#modalNameInput').data('id', id);
-        //TODO : AJAX POUR CHARGER A LA VOLEE OU DESACTIVER LA CATEG ACTUELLE
         myModal.show();
     }
-    function saveCategIng() {
+    function saveBrand() {
         let name = $('#modalNameInput').val();
         let id = $('#modalNameInput').data('id');
-        // TODO : RECUPERER LA VALEUR DU SELECT
         $.ajax({
             url: '<?= base_url('/admin/categing/update') ?>',
             type: 'POST',
             data: {
                 name: name,
                 id: id,
-                // TODO : AJOUTER LA VALEUR DU SELECT
             },
             success: function(response) {
                 myModal.hide();
@@ -180,11 +175,10 @@
         })
     }
 
-    function deleteCategIng(id) {
-        //TODO : VERIFIER SI ON SUPPRIME UNE CATEGORIE PARENTE
+    function deleteBrand(id){
         Swal.fire({
             title: `Êtes-vous sûr ?`,
-            text: `Voulez-vous vraiment supprimer cette catégorie ?`,
+            text: `Voulez-vous vraiment supprimer cette marque ?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#28a745",
@@ -199,7 +193,7 @@
                     data: {
                         id: id,
                     },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
                             Swal.fire({
                                 title: 'Succès !',
