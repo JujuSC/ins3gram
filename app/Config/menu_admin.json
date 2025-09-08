@@ -7,21 +7,32 @@
   },
   "recipe": {
     "title": "Recettes",
-    "url": "/admin/recipe",
-    "icon": "<i class=\"nav-icon fas fa-martini-glass\"></i>",
-    "class":""
-},
-  "brand": {
-    "title": "Marques",
-    "url": "/admin/brand",
-    "icon": "<i class=\"nav-icon fa-solid fa-wine-bottle\"></i>",
-    "class": ""
+    "url" : "/admin/recipe",
+    "icon" : "<i class=\"nav-icon fas fa-martini-glass-citrus\"></i>",
+    "class" : "",
+    "subs": {
+      "tag": {
+        "title": "Tag",
+        "url": "/admin/tag/",
+        "icon": "<i class=\"nav-icon fa-solid fa-tags\"></i>"
+      }
+    }
   },
-  "categing": {
-    "title": "Catégories",
-    "url": "/admin/categing",
-    "icon": "<i class=\"nav-icon fa-solid fa-folder-open\"></i>",
-    "class": ""
+  "ingredient": {
+    "title": "Ingrédients",
+    "icon": "<i class=\"nav-icon fas fa-clipboard-list\"></i>",
+    "subs": {
+      "category": {
+        "title": "Catégories",
+        "url": "/admin/categing",
+        "icon": "<i class=\"nav-icon fas fa-tag\"></i>"
+      },
+      "brand": {
+        "title": "Marques",
+        "url": "/admin/brand",
+        "icon": "<i class=\"nav-icon fas fa-font-awesome\"></i>"
+      }
+    }
   },
   "administration": {
     "title": "Administration",
