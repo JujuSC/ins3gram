@@ -11,6 +11,11 @@
     "icon" : "<i class=\"nav-icon fas fa-martini-glass-citrus\"></i>",
     "class" : "",
     "subs": {
+      "recipe": {
+        "title": "Recettes",
+        "url": "/admin/recipe",
+        "icon": "<i class=\"nav-icon fas fa-martini-glass-citrus\"></i>"
+      },
       "tag": {
         "title": "Tag",
         "url": "/admin/tag/",
