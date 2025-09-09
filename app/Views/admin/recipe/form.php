@@ -76,9 +76,9 @@ endif;
                         </div>
                         <div id="zone-ingredients">
                             <?php
-                            if(isset($ingredients)) :
+                            if(isset($recipe['ingredients'])) :
                                 $cpt_ing = 0;
-                                foreach($ingredients as $ingredient) :
+                                foreach($recipe['ingredients'] as $ingredient) :
                                     $cpt_ing++;
                                     ?>
                                     <div class="row mb-3 row-ingredient">
@@ -106,7 +106,17 @@ endif;
                     <!--END: INGREDIENTS -->
                     <!--START: MOTS CLÉS -->
                     <div class="tab-pane fade" id="keyword-tab-pane" role="tabpanel">
-                        MOTS CLES
+                        <div class="row row-cols-2 row-cols-md-4">
+                        <?php if(isset($tags)) :
+                            foreach($tags as $tag) : ?>
+                            <div class="form-check col mb-2">
+                                <input class="form-check-input" type="checkbox" value="<?= $tag ['id'] ?>" id="tag-<?= $tag['id'] ?>" name="tags[]"
+                                <?= (isset($recipe['tags']) && in_array($tag['id'], $recipe['tags'])) ? 'checked' : '' ?>>
+                                <label for="tag-<?= $tag['id'] ?>" class="form-check-label" ><?= $tag['name'] ?></label>
+                            </div>
+                        <?php endforeach;
+                        endif; ?>
+                        </div>
                     </div>
                     <!--END: MOTS CLÉS -->
                     <!--START: ÉTAPES -->
