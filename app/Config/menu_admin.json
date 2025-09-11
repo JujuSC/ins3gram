@@ -27,6 +27,11 @@
     "title": "Ingrédients",
     "icon": "<i class=\"nav-icon fas fa-clipboard-list\"></i>",
     "subs": {
+      "ingredient": {
+        "title": "Ingrédients",
+        "url": "/admin/ingredient",
+        "icon": "<i class=\"nav-icon fa-solid fa-flask\"></i>"
+      },
       "category": {
         "title": "Catégories",
         "url": "/admin/categing",

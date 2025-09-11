@@ -54,7 +54,7 @@
                                 <a href="<?= base_url('admin/recipe/') ?>${row.id}") class="btn btn-sm btn-warning" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button onclick="deleteBrand(${row.id})" class="btn btn-sm btn-danger" title="Supprimer">
+                                <button onclick="deleteRecipe(${row.id})" class="btn btn-sm btn-danger" title="Supprimer">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
