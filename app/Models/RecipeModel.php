@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 use App\Traits\DataTableTrait;
+use CodeIgniter\Model;
 
 class RecipeModel extends Model
 {
@@ -14,15 +14,15 @@ class RecipeModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name','description', 'alcool','id_user'];
-    protected $beforeInsert = ['validateAlcool'];
-    protected $beforeUpdate   = ['validateAlcool'];
+    protected $allowedFields    = ['name', 'alcool','id_user','description'];
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
+    protected $beforeInsert = ['setInsertValidationRules','validateAlcool'];
+    protected $beforeUpdate = ['setUpdateValidationRules','validateAlcool'];
 
     protected function setInsertValidationRules(array $data) {
         $this->validationRules = [
@@ -58,31 +58,28 @@ class RecipeModel extends Model
         ],
     ];
 
+    public function reactive(int $id): bool
+    {
+        return $this->builder()
+            ->where('id', $id)
+            ->update(['deleted_at' => null, 'updated_at' => date('Y-m-d H:i:s')]);
+    }
+
     protected function validateAlcool(array $data) {
-        if(isset($data['data']['alcool'])):
-            $data['data']['alcool'] = 1;
-        else:
-            $data['data']['alcool'] = 0;
-        endif;
+        $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
         return $data;
     }
+
     protected function getDataTableConfig(): array
     {
         return [
             'searchable_fields' => [
                 'name',
-                'description',
-                'alcool',
-                'user.username'
             ],
             'joins' => [
-                [
-                    'table' => 'user',
-                    'condition' => 'recipe.id_user = user.id',
-                    'type' => 'left'
-                ]
+                ['table' => 'user', 'type' => 'LEFT', 'condition' => 'user.id = recipe.id_user']
             ],
-            'select' => 'recipe.*, user.username as user_username',
+            'select' => 'recipe.*, user.username as creator',
             'with_deleted' => true
         ];
     }
