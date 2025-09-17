@@ -70,6 +70,7 @@ class RecipeModel extends Model
         return $data;
     }
 
+
     protected function getDataTableConfig(): array
     {
         return [

@@ -14,11 +14,6 @@ $(document).ready(function () {
         }
     });
 });
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-
 
 /**
  * Initialise un Select2 avec recherche AJAX générique
@@ -150,7 +145,7 @@ function initAjaxSelect2(selector, options) {
     });
 
     // Confirmation en console (pour le développement)
-    console.log('Select2 initialisé sur :', selector, 'avec URL :', config.url);
+    //console.log('Select2 initialisé sur :', selector, 'avec URL :', config.url);
 
     return true; // Succès
 }
@@ -158,16 +153,17 @@ function initAjaxSelect2(selector, options) {
 function initTinymce(selector) {
     tinymce.init({
         selector: selector,
-        height: "200",
+        height : "200",
         language: 'fr_FR',
         menubar: false,
         plugins: [
-            'preview', 'code', 'fullscreen', 'wordcount', 'link', 'lists',
+            'preview', 'code', 'fullscreen','wordcount', 'link','lists',
         ],
+        license_key: 'gpl',
         skin: 'oxide',
         content_encoding: 'text',
         toolbar: 'undo redo | formatselect | ' +
             'bold italic link forecolor backcolor removeformat | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' + ' fullscreen  preview code'
+            'alignright alignjustify | bullist numlist outdent indent | ' +' fullscreen  preview code'
     });
 }

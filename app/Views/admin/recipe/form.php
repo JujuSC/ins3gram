@@ -1,8 +1,8 @@
 <?php
 if(!isset($recipe)) :
-    echo form_open('/admin/recipe/insert');
+    echo form_open_multipart('/admin/recipe/insert');
 else:
-    echo form_open('/admin/recipe/update'); ?>
+    echo form_open_multipart('/admin/recipe/update'); ?>
     <input type="hidden" name="id_recipe" value="<?= $recipe['id']; ?>">
 <?php
 endif;
@@ -63,7 +63,7 @@ endif;
                         </div>
                         <div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="switchAlcool" name="alcool" checked>
+                                <input class="form-check-input" type="checkbox" role="switch" id="switchAlcool" name="alcool" <?= isset($recipe) && $recipe['alcool'] ? 'checked': ''; ?>>
                                 <label class="form-check-label" for="switchAlcool">Avec Alcool</label>
                             </div>
                         </div>
@@ -191,12 +191,33 @@ endif;
                 </div>
                 <?php if (isset($recipe)) :  ?>
                     <div class="ms-2 mb-3">
+                        <?php
+                        // On part du principe que ta BDD stocke les dates en UTC
+                        $createdAt = new DateTime($recipe['created_at'], new DateTimeZone('UTC'));
+                        $updatedAt = new DateTime($recipe['updated_at'], new DateTimeZone('UTC'));
+
+                        // On convertit en heure française
+                        $createdAt->setTimezone(new DateTimeZone('Europe/Paris'));
+                        $updatedAt->setTimezone(new DateTimeZone('Europe/Paris'));
+
+                        // On prépare un formateur de date en français
+                        $fmt = new IntlDateFormatter(
+                            'fr_FR',                   // langue FR
+                            IntlDateFormatter::LONG,   // format de la date (ex: "16 septembre 2025")
+                            IntlDateFormatter::SHORT,  // format de l'heure (ex: "20:15")
+                            'Europe/Paris'             // fuseau horaire
+                        );
+                        ?>
+
                         <div>
-                            <span class="fw-bold">Créée le: </span><?= $recipe['created_at'] ?>
+                            <span class="fw-bold">Créée le: </span>
+                            <?= $fmt->format($createdAt) ?>
                         </div>
                         <div>
-                            <span class="fw-bold">Modifiée le: </span><?= $recipe['updated_at'] ?>
+                            <span class="fw-bold">Modifiée le: </span>
+                            <?= $fmt->format($updatedAt) ?>
                         </div>
+
                     </div>
                 <?php endif; ?>
                 <div>
@@ -214,6 +235,15 @@ endif;
                     <select class="form-select" id="id_user" name="id_user">
                         <option value="<?= $id ?>" selected><?= $username ?></option>
                     </select>
+                </div>
+                <div class="mt-3">
+                    <label for="mea" class="form-label">Image Principale</label>
+                    <?php if (isset($recipe['mea']) && !empty($recipe['mea'])) : ?>
+                        <div class="text-center mb-3 ">
+                            <img class="img-thumbnail" src="<?= base_url($recipe['mea']['file_path']); ?>" >
+                        </div>
+                    <?php endif; ?>
+                    <input id="mea" type="file" name="mea" class="form-control">
                 </div>
             </div>
         </div>

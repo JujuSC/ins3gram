@@ -22,7 +22,6 @@ class StepModel extends Model
     protected $validationMessages = [
         'description' => [
             'required'  => 'La description est obligatoire.',
-            'is_unique' => 'Cette étape existe déjà.',
         ],
         'order' => [
             'required' => 'L’ordre est obligatoire.',
