@@ -29,10 +29,4 @@ class SubstituteModel extends Model
             'different' => 'L’ingrédient substitut doit être différent de l’ingrédient de base.',
         ],
     ];
-    public function getSubstituteByIngredient ($id_ingredient) {
-        $this->select('substitute.*, ingredient.name as ingredient');
-        $this->join('ingredient', 'ingredient.id = substitute.id_ingredient_base');
-        $this->where('id_ingredient_base', $id_ingredient);
-        return $this->findAll();
-    }
 }
