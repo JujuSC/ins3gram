@@ -1,2 +1,2 @@
 <?php
-echo "show : " . $any;
+echo "show : ";

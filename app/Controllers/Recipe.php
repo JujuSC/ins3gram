@@ -12,7 +12,13 @@ class Recipe extends BaseController
         return $this->view('front/recipe/index', [], false);
     }
 
-    public function show($any) {
-        return $this->view('front/recipe/show', ['any' => $any], false);
+    public function show($slug) {
+        $rm = Model('RecipeModel');
+        $recipe = $rm->getFullRecipe(null, $slug);
+        if($recipe) {
+            $this->title = "Recette : " . $recipe['name'];
+            return $this->view('front/recipe/show', ['recipe' => $recipe], false);
+        }
+        return $this->view('template/404.php', [], false);
     }
 }

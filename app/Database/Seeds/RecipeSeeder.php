@@ -10,8 +10,9 @@ class RecipeSeeder extends Seeder
     {
         $data=[
             [
-               'name' => 'Bloody Mary',
-               'description' => 'Le Bloody Mary est un cocktail plus ou moins fortement pimenté et épicé selon les goûts, à base de vodka, de jus de tomate, de jus de citron et d\'épices telles que piment, sauce Tabasco, sauce Worcestershire, poivre, sel au céleri.',
+                'name' => 'Bloody Mary',
+                'slug' => 'bloody-mary',
+                'description' => 'Le Bloody Mary est un cocktail plus ou moins fortement pimenté et épicé selon les goûts, à base de vodka, de jus de tomate, de jus de citron et d\'épices telles que piment, sauce Tabasco, sauce Worcestershire, poivre, sel au céleri.',
                 'alcool' => 1,
                 'id_user' => 1,
                 'created_at' => date("Y-m-d H:i:s"),
@@ -19,6 +20,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'name' => 'Virgin Cuba Libre',
+                'slug' => 'virgin-cuba-libre',
                 'description' => 'Un coca avec une tranche de citron',
                 'alcool' => 0,
                 'id_user' => 2,
