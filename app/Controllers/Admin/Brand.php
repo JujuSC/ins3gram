@@ -7,6 +7,8 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Brand extends BaseController
 {
+    protected $breadcrumb = [['text'=>'Tableau de Bord', 'url' => "/admin/dashboard"],['text'=>"Marques", 'url' => '']];
+
     public function index()
     {
         helper('form');
@@ -15,48 +17,63 @@ class Brand extends BaseController
 
     public function insert()
     {
-        $bm = Model('BrandModel');
+        $bm = model('BrandModel');
         $data = $this->request->getPost();
-        if ($bm->insert($data)) {
-            $this->success ('Marque créée');
+        $image = $this->request->getFile('image');
+        if ($id_brand = $bm->insert($data)) {
+            $this->success('Marque bien créée');
+            if($image && $image->getError() !== UPLOAD_ERR_NO_FILE){
+                $mediaData = [
+                    'entity_type' => 'brand',
+                    'entity_id' => $id_brand,
+                    'created_at' => date('Y-m-d H:i:s')
+                ];
+                // Utiliser la fonction upload_file() de l'utils_helper pour gérer l'upload et les données du média
+                $uploadResult = upload_file($image, 'brand', $image->getName(), $mediaData,false);
+                // Vérifier le résultat de l'upload
+                if (is_array($uploadResult) && $uploadResult['status'] === 'error') {
+                    // Afficher un message d'erreur détaillé
+                    $this->error("Une erreur est survenue lors de l'upload de l'image : " . $uploadResult['message']);
+                }
+            }
         } else {
-            foreach ($bm->errors() as $key => $error) {
-                $this->error($key . ' : ' . $error);
+            foreach ($bm->errors() as $error) {
+                $this->error($error);
             }
         }
-        return $this->redirect('/admin/brand');
+        return $this->redirect('admin/brand');
     }
 
-    public function update()
-    {
-        $bm = Model('BrandModel');
+    public function update() {
+        $bm = model('BrandModel');
         $data = $this->request->getPost();
         $id = $data['id'];
         unset($data['id']);
         if ($bm->update($id, $data)) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Ca fonctionne !',
+                'message' => "La marque à été modifiée avec succés !",
             ]);
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $bm->errors()
+                'message' => $bm->errors(),
             ]);
         }
     }
+
     public function delete() {
-        $bm = Model('BrandModel');
-        $id = $this->request->getPost();
+        $bm = model('BrandModel');
+        $id = $this->request->getPost('id');
         if ($bm->delete($id)) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'La marque a été supprimée avec succès !',
+                'message' => "La marque à été supprimée avec succés !",
             ]);
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $bm->errors()
+                'message' => $bm->errors(),
             ]);
         }
     }

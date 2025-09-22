@@ -7,55 +7,58 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Tag extends BaseController
 {
+    protected $breadcrumb = [['text'=>'Tableau de Bord', 'url' => "/admin/dashboard"],['text'=>"Mot Clés", 'url' => '']];
+
     public function index()
     {
         helper('form');
         return $this->view('admin/tag');
     }
+
     public function insert()
     {
-        $bm = Model('TagModel');
+        $upm = model('TagModel');
         $data = $this->request->getPost();
-        if ($bm->insert($data)) {
-            $this->success ('Tag créé');
+        if ($upm->insert($data)) {
+            $this->success('Mot clé bien créé');
         } else {
-            foreach ($bm->errors() as $key => $error) {
-                $this->error($key . ' : ' . $error);
+            foreach ($upm->errors() as $error) {
+                $this->error($error);
             }
         }
-        return $this->redirect('/admin/tag');
+        return $this->redirect('admin/tag');
     }
 
-    public function update()
-    {
-        $bm = Model('TagModel');
+    public function update() {
+        $upm = model('TagModel');
         $data = $this->request->getPost();
         $id = $data['id'];
         unset($data['id']);
-        if ($bm->update($id, $data)) {
+        if ($upm->update($id, $data)) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Ca fonctionne !',
+                'message' => "Le mot clé à été modifié avec succés !",
             ]);
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $bm->errors()
+                'message' => $upm->errors(),
             ]);
         }
     }
+
     public function delete() {
-        $bm = Model('TagModel');
-        $id = $this->request->getPost();
-        if ($bm->delete($id)) {
+        $upm = model('TagModel');
+        $id = $this->request->getPost('id');
+        if ($upm->delete($id)) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Tag supprimé avec succès !',
+                'message' => "Le mot clé à été supprimé avec succés !",
             ]);
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $bm->errors()
+                'message' => $upm->errors(),
             ]);
         }
     }

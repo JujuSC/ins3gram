@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Entities\User;
+use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 use App\Traits\DataTableTrait;
-use App\Traits\Select2Searchable;
 class UserModel extends Model
 {
     use DataTableTrait;
@@ -126,6 +126,7 @@ class UserModel extends Model
             'with_deleted' => true
         ];
     }
+    // Configuration pour Select2Searchable
     protected $select2SearchFields = ['username'];
     protected $select2DisplayField = 'username';
 }

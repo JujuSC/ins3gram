@@ -24,6 +24,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
         $routes->get('new', 'Recipe::create');
         $routes->post('insert', 'Recipe::insert');
         $routes->post('update', 'Recipe::update');
+        $routes->post('switch-active','Recipe::switchActive');
     });
     $routes->group('brand', function($routes) {
        $routes->get('/', 'Brand::index');
@@ -49,6 +50,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
 
     $routes->group('unit', function($routes) {
        $routes->get('search', 'Unit::search');
+       $routes->get('/', 'Unit::index');
+       $routes->post('insert', 'Unit::insert');
+       $routes->post('update', 'Unit::update');
+       $routes->post('delete', 'Unit::delete');
     });
     $routes->group('tag', function($routes) {
         $routes->get('/', 'Tag::index');

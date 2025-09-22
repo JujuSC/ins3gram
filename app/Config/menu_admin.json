@@ -41,6 +41,11 @@
         "title": "Marques",
         "url": "/admin/brand",
         "icon": "<i class=\"nav-icon fas fa-font-awesome\"></i>"
+      },
+      "unit": {
+        "title": "Unités",
+        "url": "/admin/unit",
+        "icon": "<i class=\"nav-icon fa-solid fa-ruler\"></i>"
       }
     }
   },

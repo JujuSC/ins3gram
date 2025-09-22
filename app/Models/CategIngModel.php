@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 use App\Traits\DataTableTrait;
+use CodeIgniter\Model;
 
 class CategIngModel extends Model
 {
@@ -42,10 +42,10 @@ class CategIngModel extends Model
             ],
             'joins' => [
                 [
-                'table' => 'categ_ing as parent_categ',
-                'condition' => 'parent_categ.id = categ_ing.id_categ_parent',
-                'type' => 'left',
-                    ]
+                    'table' => 'categ_ing as parent_categ',
+                    'condition' => 'parent_categ.id = categ_ing.id_categ_parent',
+                    'type' => 'left',
+                ]
             ],
             'select' => 'categ_ing.*, parent_categ.name as parent_name',
         ];

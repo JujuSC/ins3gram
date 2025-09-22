@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <?= form_open('admin/brand/insert') ?>
+            <?= form_open_multipart('admin/brand/insert') ?>
             <div class="card-header h4">
                 Créer une marque
             </div>
@@ -9,6 +9,9 @@
                 <div class="form-floating">
                     <input id="name" class="form-control" placeholder="Nom de la marque" type="text" name="name" required>
                     <label for="name">Nom de la marque</label>
+                </div>
+                <div class="mt-3">
+                    <input type="file" class="form-control" name="image">
                 </div>
             </div>
             <div class="card-footer text-end">
@@ -27,6 +30,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Img</th>
                         <th>Nom</th>
                         <th>Actions</th>
                     </tr>
@@ -72,6 +76,19 @@
             },
             columns: [
                 { data: 'id' },
+                {
+                    data: null,
+                    orderable: false,
+                    render: function(data, type, row) {
+                        if(row.image_url) {
+                            return `<img style="height:30px;" src='${baseUrl}/${row.image_url}'>
+                        `;
+                        } else {
+                            return `<img style="height:30px;" src='${baseUrl}/assets/img/no-img.png'>
+                        `;
+                        }
+                    }
+                },
                 { data: 'name' },
                 {
                     data: null,

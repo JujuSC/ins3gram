@@ -8,22 +8,24 @@ class RecipeSeeder extends Seeder
 {
     public function run()
     {
-        $data=[
+        $data = [
             [
-               'name' => 'Bloody Mary',
-               'description' => 'Le Bloody Mary est un cocktail plus ou moins fortement pimenté et épicé selon les goûts, à base de vodka, de jus de tomate, de jus de citron et d\'épices telles que piment, sauce Tabasco, sauce Worcestershire, poivre, sel au céleri.',
+                'name' => 'Bloody Mary',
+                'slug' => 'bloody-mary',
+                'description' => 'Le Bloody Mary est un cocktail plus ou moins fortement pimenté et épicé selon les goûts',
                 'alcool' => 1,
                 'id_user' => 1,
                 'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
+                'updated_at' => date("Y-m-d H:i:s"),
             ],
             [
                 'name' => 'Virgin Cuba Libre',
+                'slug' => 'virgin-cuba-libre',
                 'description' => 'Un coca avec une tranche de citron',
                 'alcool' => 0,
                 'id_user' => 2,
                 'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
+                'updated_at' => date("Y-m-d H:i:s"),
             ],
         ];
         $this->db->table('recipe')->insertBatch($data);
@@ -66,47 +68,41 @@ class RecipeSeeder extends Seeder
             ],
         ];
         $this->db->table('quantity')->insertBatch($data);
-
-        $data= [
-          [
-              'id_recipe' => '1',
-              'id_tag'=> '14',
-          ],
+        $data = [
             [
                 'id_recipe' => '1',
-                'id_tag'=> '37',
+                'id_tag' => '14'
             ],
             [
                 'id_recipe' => '1',
-                'id_tag'=> '21',
+                'id_tag' => '37'
             ],
             [
                 'id_recipe' => '1',
-                'id_tag'=> '1',
+                'id_tag' => '21'
             ],
             [
                 'id_recipe' => '1',
-                'id_tag'=> '15',
+                'id_tag' => '4'
+            ],
+            [
+                'id_recipe' => '1',
+                'id_tag' => '15'
             ],
             [
                 'id_recipe' => '2',
-                'id_tag'=> '26',
+                'id_tag' => '26'
             ],
             [
                 'id_recipe' => '2',
-                'id_tag'=> '18',
+                'id_tag' => '18'
             ],
             [
                 'id_recipe' => '2',
-                'id_tag'=> '15',
-            ],
-            [
-                'id_recipe' => '2',
-                'id_tag'=> '14',
+                'id_tag' => '15'
             ],
         ];
         $this->db->table('tag_recipe')->insertBatch($data);
-
         $data = [
             // Bloody Mary
             [
@@ -180,5 +176,23 @@ class RecipeSeeder extends Seeder
 
         // Insertion en batch
         $this->db->table('step')->insertBatch($data);
+
+        $data = [
+            [
+                'file_path' => 'uploads/2025/09/recipe/1/bloody-mary-7295563-1920-jpg-1758290680.jpg',
+                'entity_id' => 1,
+                'entity_type' => 'recipe_mea',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ],
+            [
+                'file_path' => 'uploads/2025/09/recipe/2/39-cuba-libre-jpg-1758290837.jpg',
+                'entity_id' => 2,
+                'entity_type' => 'recipe_mea',
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ],
+        ];
+        $this->db->table('media')->insertBatch($data);
     }
 }

@@ -42,7 +42,6 @@ class UserPermissionModel extends Model
             $slug = url_title(convert_accented_characters($data['data']['name']), '-', true);
             $data['data']['slug'] = $slug;
         }
-
         return $data;
     }
     protected function getDataTableConfig(): array
