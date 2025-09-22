@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Models\MediaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Recipe extends BaseController
@@ -113,7 +114,7 @@ class Recipe extends BaseController
                     'created_at' => date('Y-m-d H:i:s')
                 ];
                 // Utiliser la fonction upload_file() de l'utils_helper pour gérer l'upload et les données du média
-                $uploadResult = upload_file($mea, 'recipe/mea', $mea->getName(), $mediaData,false);
+                $uploadResult = upload_file($mea, 'recipe/'.$id_recipe, $mea->getName(), $mediaData,false);
                 // Vérifier le résultat de l'upload
                 if (is_array($uploadResult) && $uploadResult['status'] === 'error') {
                     // Afficher un message d'erreur détaillé
@@ -121,6 +122,7 @@ class Recipe extends BaseController
                 }
             }
 
+            //gestion des images
             $images = $this->request->getFiles()['images'];
             foreach ($images as $image) {
                 if($image && $image->getError() !== UPLOAD_ERR_NO_FILE){
@@ -149,8 +151,6 @@ class Recipe extends BaseController
     public function update()
     {
         $data = $this->request->getPost();
-        $images = $this->request->getFiles()['images'];
-
         $id_recipe = $data['id_recipe'];
         $rm = Model('RecipeModel');
         if ($rm->update($id_recipe, $data)) {
@@ -267,7 +267,7 @@ class Recipe extends BaseController
                     'created_at' => date('Y-m-d H:i:s')
                 ];
                 // Utiliser la fonction upload_file() de l'utils_helper pour gérer l'upload et les données du média
-                $uploadResult = upload_file($mea, 'recipe/.mea', $mea->getName(), $mediaData,false);
+                $uploadResult = upload_file($mea, 'recipe/'.$id_recipe, $mea->getName(), $mediaData,false);
                 // Vérifier le résultat de l'upload
                 if (is_array($uploadResult) && $uploadResult['status'] === 'error') {
                     // Afficher un message d'erreur détaillé
@@ -297,7 +297,7 @@ class Recipe extends BaseController
             //suppression des images
             if(isset($data['delete-img'])) {
                 $mediaModel = Model('MediaModel');
-                foreach($data['delete-img'] as $id_img) {
+                foreach ($data['delete-img'] as $id_img) {
                     // $mediaModel->delete($id_img); //suppression uniquement de la BDD
                     $mediaModel->deleteMedia($id_img); //suppression BDD + physique
                 }

@@ -14,7 +14,7 @@ class StepModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['description', 'order','id_recipe'];
     protected $validationRules = [
-        'description' => 'required|string|is_unique[step.description,id,{id}]',
+        'description' => 'required|string',
         'order'       => 'required|integer',
         'id_recipe'   => 'required|integer',
     ];

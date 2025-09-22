@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
 use App\Traits\DataTableTrait;
+use CodeIgniter\Model;
 
 class TagModel extends Model
 {

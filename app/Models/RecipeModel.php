@@ -14,7 +14,7 @@ class RecipeModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name','slug','alcool','id_user','description'];
+    protected $allowedFields    = ['name','slug', 'alcool','id_user','description'];
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
@@ -59,16 +59,16 @@ class RecipeModel extends Model
     ];
 
     /**
-     * Récupère depuis la base de données uen recette avec tous ses éléments associés (étapes, ingrédients, mots clés, utilisateurs, images...)
-     * @param $id null Récupère depuis un ID (mettre null pour récupéré via le slug)
+     * Récupère depuis la base de données une recette avec tous ses éléments associés (étapes, ingrédients, mots clés, utilisateur, images ...)
+     * @param $id null Récupère depuis un ID (mettre null pour récupérer via le slug)
      * @param $slug null Récupère depuis un slug (l'ID doit être à null sinon il est prioritaire)
      * @return array Tableau contenant toutes les informations de notre recette
      */
     public function getFullRecipe($id = null, $slug = null) {
         if($id != null) {
-            $recipe = $this->find($id);
-        } elseif ($slug != null) {
-            $recipe = $this->where('slug', $slug)->withDeleted()-> first();
+            $recipe = $this->withDeleted()->find($id);
+        } elseif($slug != null) {
+            $recipe = $this->where('slug', $slug)->withDeleted()->first();
         } else {
             return [];
         }
@@ -81,7 +81,7 @@ class RecipeModel extends Model
         //Récupération des ingrédients (via la table Quantity)
         $ingredients = Model('QuantityModel')->getQuantityByRecipe($id_recipe);
         $recipe['ingredients'] = $ingredients; //on ajoute au tableau recipe
-        //Gestion pour le cas d'un ID (notamment pour l'édition en BackOffice BO)
+        //Gestion pour le cas d'un ID (notamment pour l'édition en BO)
         if($id != null) {
             //Récupération des mots clés associés à notre recette
             $recipe_tags = Model('TagRecipeModel')->where('id_recipe', $id_recipe)->findAll();
@@ -89,8 +89,8 @@ class RecipeModel extends Model
             foreach ($recipe_tags as $recipe_tag) {
                 $recipe['tags'][] = $recipe_tag['id_tag'];
             }
-        } else { //Cas d'un SLUG (notamment pour l'affichage en FrontOffice FO)
-            $recipe['tags'] = Model('tagRecipeModel')->join('tag','tag_recipe.id_tag = tag.id')->where('id_recipe', $id_recipe)->findAll();
+        } else { //Cas d'un SLUG (notamment pour l'affichage en FO)
+            $recipe['tags'] = Model('TagRecipeModel')->join('tag','tag_recipe.id_tag = tag.id')->where('id_recipe', $id_recipe)->findAll();
         }
         $mediamodel = Model('MediaModel');
         //Récupération de l'image principale et stocker dans le tableau recipe
@@ -113,7 +113,6 @@ class RecipeModel extends Model
         $data['data']['alcool'] = isset($data['data']['alcool']) ? 1 : 0;
         return $data;
     }
-
 
     protected function getDataTableConfig(): array
     {

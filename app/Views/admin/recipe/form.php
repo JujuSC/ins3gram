@@ -87,9 +87,9 @@ endif;
                         </div>
                     </div>
                     <!--END:GENERAL -->
-                    <!--START:IMAGES -->
+                    <!--START: IMAGES -->
                     <div class="tab-pane fade" id="image-tab-pane" role="tabpanel">
-                        <div class=" row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
+                        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
                             <?php
                             if (isset($recipe['images'])) :
                                 foreach ($recipe['images'] as $image) : ?>
@@ -115,7 +115,7 @@ endif;
                             <input type="file" name="images[]" class="form-control" multiple>
                         </div>
                     </div>
-                    <!--END:IMAGES -->
+                    <!--END: IMAGES -->
                     <!--START: INGREDIENTS -->
                     <div class="tab-pane fade" id="ingredient-tab-pane" role="tabpanel">
                         <div class="mb-3">
@@ -423,11 +423,11 @@ endif;
                 badge.html(parseInt(badge.html()) - 1);
             }
         });
-        //Actions sur le survol d'une image
+        //Action sur le survol d'une image
         $('.img-hover-delete').on('mouseenter mouseleave', function () {
-            $(this).find('.position-absolute').toggle();
+            $(this).find('.position-absolute').fadeToggle('fast');
         });
-        //Action sur le bouton suppression d'une image
+        //Action sur le bouton de suppression d'une image
         $('.delete-img').on('click', function (e) {
             e.preventDefault();
             let id = $(this).data('id');

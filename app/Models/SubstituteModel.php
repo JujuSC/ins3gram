@@ -29,4 +29,5 @@ class SubstituteModel extends Model
             'different' => 'L’ingrédient substitut doit être différent de l’ingrédient de base.',
         ],
     ];
+
 }

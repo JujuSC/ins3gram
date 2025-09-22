@@ -1,7 +1,7 @@
 <?php
 
 if (!function_exists('generate_slug')) {
-     function generateSlug($string)
+    function generateSlug($string)
     {
         // Normaliser la chaîne pour enlever les accents
         $string = \Normalizer::normalize($string, \Normalizer::FORM_D);

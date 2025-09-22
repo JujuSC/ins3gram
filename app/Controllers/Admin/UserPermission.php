@@ -10,53 +10,53 @@ class UserPermission extends BaseController
     public function index()
     {
         helper('form');
-       return $this->view('admin/user-permission');
+        return $this->view('admin/user-permission');
     }
 
     public function insert()
     {
-        $upm = Model('UserPermissionModel');
+        $upm = model('UserPermissionModel');
         $data = $this->request->getPost();
         if ($upm->insert($data)) {
-            $this->success ('Permission utilisateur bien créée');
+            $this->success('Permission utilisateur bien créée');
         } else {
-            foreach ($upm->errors() as $key => $error) {
-                $this->error($key . ' : ' . $error);
+            foreach ($upm->errors() as $error) {
+                $this->error($error);
             }
         }
-        return $this->redirect('/admin/user-permission');
+        return $this->redirect('admin/user-permission');
     }
 
-    public function update()
-    {
-        $upm = Model('UserPermissionModel');
+    public function update() {
+        $upm = model('UserPermissionModel');
         $data = $this->request->getPost();
         $id = $data['id'];
         unset($data['id']);
         if ($upm->update($id, $data)) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'Ca fonctionne !',
+                'message' => "La permission à été modifiée avec succés !",
             ]);
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $upm->errors()
+                'message' => $upm->errors(),
             ]);
         }
     }
+
     public function delete() {
-        $upm = Model('UserPermissionModel');
-        $id = $this->request->getPost();
+        $upm = model('UserPermissionModel');
+        $id = $this->request->getPost('id');
         if ($upm->delete($id)) {
             return $this->response->setJSON([
                 'success' => true,
-                'message' => 'La permission a été supprimée avec succès !',
+                'message' => "La permission à été supprimée avec succés !",
             ]);
         } else {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => $upm->errors()
+                'message' => $upm->errors(),
             ]);
         }
     }
