@@ -102,6 +102,15 @@ class RecipeModel extends Model
         $recipe['steps'] = $steps; //on ajoute à notre recette
         return $recipe;
     }
+
+
+    public function getAllRecipes($limit = 8, $offset = 0) {
+        $this->select('recipe.id, recipe.name, alcool, slug, media.file_path as mea, COALESCE(AVG(score), 0) as score');
+        $this->join('media',' recipe.id = media.entity_id AND media.entity_type = \'recipe_mea\'','left');
+        $this->join('opinion',' opinion.id_recipe = recipe.id','left');
+        $this->groupBy('recipe.id');
+        return $this->findAll($limit, $offset);
+    }
     public function reactive(int $id): bool
     {
         return $this->builder()

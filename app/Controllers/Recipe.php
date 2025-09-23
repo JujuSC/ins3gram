@@ -9,7 +9,8 @@ class Recipe extends BaseController
 {
     public function index()
     {
-        return $this->view('front/recipe/index', [], false);
+        $recipes = Model('RecipeModel')->getAllRecipes();
+        return $this->view('front/recipe/index', ['recipes'=>$recipes], false);
     }
 
     public function show($slug) {
