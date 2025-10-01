@@ -11,3 +11,5 @@ require APPPATH . 'Config/Routes/Admin.php';
 
 //Routes du site (front)
 require APPPATH . 'Config/Routes/Site.php';
+
+require APPPATH . 'Config/Routes/Api.php';

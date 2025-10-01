@@ -15,7 +15,7 @@ class IngredientModel extends Model
     protected $table            = 'ingredient';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'object';
+    protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['name', 'description', 'id_categ', 'id_brand'];
