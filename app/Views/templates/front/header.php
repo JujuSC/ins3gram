@@ -38,7 +38,5 @@
                             </ul>
                         </li>
                     <?php }} ?>
-
-
             </ul>
         </div></div></nav>

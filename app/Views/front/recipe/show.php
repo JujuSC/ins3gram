@@ -14,6 +14,42 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-3">
+        NOTE
+    </div>
+    <div class="col-md-9">
+        BOUTON LIEN
+    </div>
+</div>
+<!--START: TAGS-->
+<div class="row">
+    <div class="col">
+        <div class="container text-center">
+            <?php foreach($recipe['tags'] as $tag) : ?>
+            <div class="row row-cols-auto">
+                <div class="col">
+                    <span class="bg-black text-white border"><?= $tag['name'] ?></span>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: TAGS-->
+<!-- START :INGREDIENTS-->
+<div class="row">
+    <div class="col">
+        <div class="container text-center">
+            <?php foreach($recipe['ingredients'] as $ingredient) : ?>
+            <div class="row row-cols-4 mb-3">
+                <div class="col"><?= $ingredient['quantity'] ?></div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: INGREDIENTS -->
+<div class="row">
     <?php if(!empty($recipe['images'])) : ?>
     <div class="col-md-6">
         <div id="main-slider" class="splide mb-3">
@@ -49,6 +85,24 @@
         </div>
     </div>
 </div>
+<!-- START: ETAPES -->
+<div class="row">
+    <div class="col-4">
+        <div id="list-example" class="list-group">
+            <?php foreach($recipe['steps'] as $step) :?>
+            <a class="list-group-item list-group-item-action" href="#list-item-<?= $step['order'] ?>">Etape <?= $step['order'] ?></a>
+        </div>
+    </div>
+    <div class="col-8">
+        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+
+            <h4 id="list-item-<?= $step['order'] ?>"><?= $step['order'] ?></h4>
+            <p><?= $step['description'] ?></p>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+<!-- END: ETAPES -->
 <script>
     $(document).ready(function () {
         var main = new Splide('#main-slider', {

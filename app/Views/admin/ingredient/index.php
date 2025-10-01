@@ -3,17 +3,16 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Liste des ingrédients</h3>
-                <a href="<?= base_url('/admin/ingredient/new') ?>" class="btn btn-primary">
+                <a href="<?= base_url('/admin/ingredient/new') ?>"class="btn btn-primary">
                     <i class="fas fa-plus"></i> Nouvel Ingrédient
                 </a>
             </div>
             <div class="card-body">
-                <table id="ingredientTable" class="table table-sm table-bordered table-striped">
+                <table id="tableIngredient" class="table table-sm table-bordered table-stripped">
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nom</th>
-                        <th>Description</th>
+                        <th>Ingrédient</th>
                         <th>Marque</th>
                         <th>Catégorie</th>
                         <th>Actions</th>
@@ -24,16 +23,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer">
-
-            </div>
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function(){
         var baseUrl = "<?= base_url(); ?>";
-        var table = $('#ingredientTable').DataTable({
+        var table = $('#tableIngredient').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -46,7 +42,6 @@
             columns: [
                 { data: 'id' },
                 { data: 'name' },
-                { data: 'description' },
                 { data: 'brand_name' },
                 { data: 'categ_name' },
                 {
@@ -55,11 +50,11 @@
                     render: function(data, type, row) {
                         return `
                             <div class="btn-group" role="group">
-                                <a href="<?= base_url('admin/ingredient/') ?>${row.id}") class="btn btn-sm btn-warning" title="Modifier">
-                                    <i class="fas fa-edit"></i>
+                                <a href="<?= base_url('admin/ingredient/') ?>${row.id}" class="btn btn-sm btn-warning" title="Modifier">
+                                <i class="fas fa-edit"></i>
                                 </a>
-                                <button onclick="deleteIngredient(${row.id})" class="btn btn-sm btn-danger" title="Supprimer">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button class="btn btn-sm btn-danger" onclick="deleteIngredient(${row.id})" title="Supprimer">
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         `;
@@ -73,21 +68,22 @@
             }
         });
 
-        // Fonction pour actualiser la table
         window.refreshTable = function() {
-            table.ajax.reload(null, false); // false pour garder la pagination
+            table.ajax.reload(null, false);
         };
     });
+
     function deleteIngredient(id){
         Swal.fire({
             title: `Êtes-vous sûr ?`,
-            text: `Voulez-vous vraiment supprimer cet ingrédient ?`,
+            text: `Voulez-vous vraiment supprimer cet ingrédient ? Cette action est définitive.`,
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#28a745",
+            confirmButtonColor: "#dc3545",
             cancelButtonColor: "#6c757d",
-            confirmButtonText: `Oui !`,
+            confirmButtonText: `Oui, supprimer !`,
             cancelButtonText: "Annuler",
+
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -96,7 +92,9 @@
                     data: {
                         id: id,
                     },
+
                     success: function(response) {
+                        myModal.hide();
                         if (response.success) {
                             Swal.fire({
                                 title: 'Succès !',
@@ -108,15 +106,22 @@
                             // Actualiser la table
                             refreshTable();
                         } else {
-                            console.log(response.message)
                             Swal.fire({
                                 title: 'Erreur !',
-                                text: 'Une erreur est survenue',
+                                text: response.message || 'Une erreur est survenue',
                                 icon: 'error'
                             });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur AJAX:', error);
+                        Swal.fire({
+                            title: 'Erreur !',
+                            text: 'Erreur de communication avec le serveur',
+                            icon: 'error'
+                        });
                     }
-                })
+                });
             }
         });
     }

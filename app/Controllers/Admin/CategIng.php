@@ -7,35 +7,87 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class CategIng extends BaseController
 {
+    public function search()
+    {
+        $request = $this->request;
+
+        // Vérification AJAX
+        if (!$request->isAJAX()) {
+            return $this->response->setJSON(['error' => 'Requête non autorisée']);
+        }
+
+        $cim = Model('CategIngModel');
+
+        // Paramètres de recherche
+        $search = $request->getGet('search') ?? '';
+        $page = (int)($request->getGet('page') ?? 1);
+        $limit = 20;
+
+        // Utilisation de la méthode du Model (via le trait)
+        $result = $cim->quickSearchForSelect2($search, $page, $limit);
+
+        // Réponse JSON
+        return $this->response->setJSON($result);
+    }
     public function index()
     {
-        helper(['form']);
-        $categ = Model('CategIngModel')->orderBy('name')->findAll();
-        return $this->view('/admin/categ-ing', ['categ' => $categ]);
+        helper('form');
+
+        // Récupérer toutes les catégories pour le select parent
+        $parents = model('CategIngModel')->orderBy('name')->findAll();
+
+        return $this->view('admin/categ-ing', ['parents' => $parents]);
     }
 
     public function insert()
     {
         $cim = model('CategIngModel');
         $data = $this->request->getPost();
+        // si c'est vide on retire l'info du data donc on donne juste un nom
         if(empty($data['id_categ_parent'])) unset($data['id_categ_parent']);
         if ($cim->insert($data)) {
-            $this->success('Catégorie d\'ingrédients bien créée');
+            $this->success('catégorie d\'ingrédients bien créée');
         } else {
+            //print_r($upm->errors());
+            //die();
             foreach ($cim->errors() as $error) {
-                $this->error($error);
+                $this->error ($error);
             }
         }
-        return $this->redirect('admin/category-ingredient');
+        return $this->redirect('admin/categ-ing');
     }
-
     public function update()
     {
-        //
+        $cim = model('CategIngModel');
+        $data = $this->request->getPost();
+        $id = $data['id'];
+        unset($data['id']);
+        if ($cim->update($id, $data)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'La catégorie a été modifiée avec succès !',
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => $cim->errors(),
+            ]);
+        }
     }
-
     public function delete()
     {
-        //
+        $cim = model('CategIngModel');
+        $id = $this->request->getPost('id');
+        if ($cim->delete($id)) {
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => "La catégorie a été supprimée avec succès !",
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => $cim->errors(),
+            ]);
+        }
     }
 }

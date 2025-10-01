@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableTrait;
 use App\Traits\Select2Searchable;
 use CodeIgniter\Model;
 
 class UnitModel extends Model
 {
     use Select2Searchable;
+    use DataTableTrait;
+
     protected $table            = 'unit';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -16,6 +19,10 @@ class UnitModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['name'];
 
+    // Dates
+    protected $useTimestamps = false;
+
+    // Validation
     protected $validationRules = [
         'name' => 'required|max_length[255]|is_unique[unit.name,id,{id}]',
     ];
@@ -27,7 +34,21 @@ class UnitModel extends Model
         ],
     ];
 
-    // Configuration pour Select2Searchable
+    // Callbacks
+    protected $beforeDelete   = [];
+
     protected $select2SearchFields = ['name'];
     protected $select2DisplayField = 'name';
+
+    protected function getDataTableConfig(): array
+    {
+        return [
+            'searchable_fields' => [
+                'name',
+                'id',
+            ],
+            'joins' => [],
+            'select' => '*',
+        ];
+    }
 }
