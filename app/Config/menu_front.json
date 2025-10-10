@@ -4,5 +4,11 @@
     "url": "/recette",
     "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
     "class": "main-menu-accueil"
+  },
+  "contact": {
+    "title" : "Contact",
+    "url" : "/contactez-nous",
+    "icon" : "<i class=\"nav-icon fas fa-envelope\"></i>",
+    "class": ""
   }
 }
