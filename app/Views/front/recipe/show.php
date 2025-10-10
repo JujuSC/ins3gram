@@ -15,35 +15,52 @@
 </div>
 <div class="row">
     <div class="col-md-3">
-        NOTE
+        <div class="row">
+            <div class="col">
+                <div class="row row-cols-2 my-2">
+                    <div class="col">
+                        <span class="fas fa-star" data-star="1"></span>
+                        <span class="fas fa-star" data-star="2"></span>
+                        <span class="fas fa-star" data-star="3"></span>
+                        <span class="fas fa-star" data-star="4"></span>
+                        <span class="fas fa-star" data-star="5"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-md-9">
         BOUTON LIEN
     </div>
 </div>
-<!--START: TAGS-->
-<div class="row">
-    <div class="col">
-        <div class="container text-center">
-            <?php foreach($recipe['tags'] as $tag) : ?>
-            <div class="row row-cols-auto">
-                <div class="col">
-                    <span class="bg-black text-white border"><?= $tag['name'] ?></span>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
+<!-- START: TAGS-->
+<div class="row py-3">
+    <div class="">
+        <?php if (isset($recipe['tags']) && !empty($recipe['tags'])): ?>
+            <?php foreach ($recipe['tags'] as $tag): ?>
+                <span class="badge text-bg-primary"><?= esc($tag['name']) ?></span>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <span class="text-muted">Aucun mot-clé associé</span>
+        <?php endif; ?>
     </div>
 </div>
 <!-- END: TAGS-->
 <!-- START :INGREDIENTS-->
 <div class="row">
     <div class="col">
-        <div class="container text-center">
-            <?php foreach($recipe['ingredients'] as $ingredient) : ?>
-            <div class="row row-cols-4 mb-3">
-                <div class="col"><?= $ingredient['quantity'] ?></div>
-                <?php endforeach; ?>
+        <div class="card">
+            <div class="card-header">
+                <h2>Ingrédients</h2>
+            </div>
+            <div class="card-body ">
+                <div class=" row row-cols-2 row-cols-md-4">
+                    <?php foreach($ingredients as $ing) : ?>
+                        <div class="col">
+                            <?= $ing['ingredient']?> - <?= $ing['quantity']?> <?= $ing['unit'] ?>
+                        </div>
+                    <?php endforeach ; ?>
+                </div>
             </div>
         </div>
     </div>
@@ -86,20 +103,25 @@
     </div>
 </div>
 <!-- START: ETAPES -->
-<div class="row">
-    <div class="col-4">
-        <div id="list-example" class="list-group">
-            <?php foreach($recipe['steps'] as $step) :?>
-            <a class="list-group-item list-group-item-action" href="#list-item-<?= $step['order'] ?>">Etape <?= $step['order'] ?></a>
-        </div>
-    </div>
-    <div class="col-8">
-        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-
-            <h4 id="list-item-<?= $step['order'] ?>"><?= $step['order'] ?></h4>
-            <p><?= $step['description'] ?></p>
+<div class="container-lg">
+    <div class="row bg-secondary-subtle py-4">
+        <?php if (isset($recipe['steps'])) : ?>
+            <?php foreach ($recipe['steps'] as $step) : ?>
+                <div class="col-4">
+                    <div id="#zone-steps" class="list-group">
+                        <a class="list-group-item list-group-item-action" href="#list-step<?= $step['order']; ?>" data-bs-target="#step-<?= $step['order']; ?>" >Étape <?= $step['order']; ?></a>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true"
+                         class="scrollspy-example" tabindex="1" data-bs-parent="#zone-steps" >
+                        <h4 id="list-step<?= $step['order']; ?>"
+                        ></h4>
+                        <p class="text" value="steps[<?= $step['order']; ?>][description]"><?= $step['description'] ?></p>
+                    </div>
+                </div>
             <?php endforeach; ?>
-        </div>
+        <?php endif; ?>
     </div>
 </div>
 <!-- END: ETAPES -->

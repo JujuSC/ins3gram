@@ -103,17 +103,12 @@
                         <i class="fas fa-plus"></i> Ajouter un ingrédient
                     </span>
                 </div>
-
             </div>
             <div class="card-footer d-grid">
                 <button type="submit" class="btn btn-primary">Filtrer</button>
             </div>
             <?php echo form_close(); ?>
-
         </div>
-
-
-
     </div>
     <!--END: FILTRE -->
     <!--START: CONTENUS -->

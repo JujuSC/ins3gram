@@ -33,5 +33,10 @@ class StepModel extends Model
         ],
     ];
 
+    public function getStepsByIdRecipe($id_recipe) {
+        $this->select('step.*');
+        $this->where('id_recipe',$id_recipe);
+        return $this->findAll();
+    }
 
 }
