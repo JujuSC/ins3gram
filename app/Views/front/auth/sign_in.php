@@ -23,7 +23,7 @@
             <div class="card-header">
                 Se connecter
             </div>
-            <form action="<?= base_url('auth/login'); ?>" method="POST">
+            <?= form_open('auth/login') ?>
                 <div class="card-body">
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required>
@@ -37,7 +37,7 @@
                 <div class="card-footer text-end">
                     <button type="submit" class="btn btn-primary">Se connecter</button>
                 </div>
-            </form>
+            <?= form_close() ?>
         </div>
     </div>
 </div>

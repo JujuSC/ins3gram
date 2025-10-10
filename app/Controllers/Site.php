@@ -17,16 +17,15 @@ class Site extends BaseController
         return $this->view('templates/404', [], false);
     }
 
-    public function testPagination() {
-        $recipeModel = Model('RecipeModel');
-        // Test basique
-        $recipes = $recipeModel->paginate(8, 'default', 3);
-        $pager = $recipeModel->pager;
-        echo "<h3>Test pagination :</h3>";
-        echo "Nombre de recettes récupérées : " . count($recipes) . "<br>";
-        echo "Page actuelle : " . $pager->getCurrentPage() . "<br>";
-        echo "Nombre total d'éléments : " . $pager->getTotal() . "<br>";
-        echo "Nombre de pages : " . $pager->getPageCount() . "<br>";
-        var_dump($pager->links()); // Génère les liens HTML
+    public function test() {
+        $email = service('email');
+        $email->setTo('user@user.com');
+        $email->setSubject('Test');
+        $email->setMessage('ceci est un Test');
+        if ($email->send()) {
+            echo 'ok';
+        } else {
+            echo $email->printDebugger(['headers']);
+        }
     }
 }
