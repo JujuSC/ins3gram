@@ -65,4 +65,8 @@ class Auth extends BaseController
 
         return redirect()->to('/sign-in')->with('success', 'Déconnexion réussie');
     }
+
+    public function signOut() {
+        return $this->view('front/auth/sign_out', [], false);
+    }
 }
