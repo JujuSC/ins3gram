@@ -31,7 +31,7 @@
 <!--START: PAGE -->
 <div class="row">
     <!--START: FILTRE -->
-    <div class="col-md-3 ">
+    <div class="col-lg-3 ">
         <!--START: FILTRE ACTIF -->
         <?php
         if(!empty(array_diff_key($_GET, array_flip(['page', 'per_page', 'sort'])))) { ?>
@@ -103,18 +103,35 @@
                         <i class="fas fa-plus"></i> Ajouter un ingrédient
                     </span>
                 </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-12">
+                            Note
+                        </div>
+                        <div class="col-md-6">
+                            <input type="range" class="form-range" min="0" max="5" value="3" id="rangeOpinion">
+                        </div>
+                        <div class="col-md-6">
+                            <output for="range4" id="rangeOpinionValue" aria-hidden="true"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></output>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer d-grid">
                 <button type="submit" class="btn btn-primary">Filtrer</button>
             </div>
             <?php echo form_close(); ?>
+
         </div>
+
+
+
     </div>
     <!--END: FILTRE -->
     <!--START: CONTENUS -->
     <div class="col p-4">
         <!--START: RECETTES -->
-        <div class="row row-cols-2 row-cols-md-4 all-recipes">
+        <div class="row row-cols-2 row-cols-lg-4 all-recipes">
             <?php foreach ($recipes as $recipe): ?>
                 <div class="col mb-4">
                     <div class="card ls-recipe h-100">
@@ -151,15 +168,16 @@
         </div>
         <!--END: RECETTES -->
         <!--START: PAGINATION -->
-    <div class="row">
-        <div class="col">
-            <?php if ($pager): ?>
-                <div class="d-flex justify-content-center">
-                    <?= $pager->links('default', 'bootstrap_full') ?>
-                </div>
-            <?php endif; ?>
+        <div class="row">
+            <div class="col">
+                <?php if ($pager): ?>
+                    <div class="d-flex justify-content-center">
+                        <?= $pager->links('default', 'bootstrap_full') ?>
+                    </div>
+                <?php endif; ?>
+
+            </div>
         </div>
-    </div>
         <!--END: PAGINATION -->
     </div>
     <!--END: CONTENUS -->
@@ -168,6 +186,18 @@
 <script>
     $(document).ready(function () {
         baseUrl = "<?= base_url(); ?>";
+        //Évènement sur le range picker
+        $('#rangeOpinion').on('input', function () {
+            var stars = '';
+            for(i = 0; i < this.value; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            for(i = this.value; i < 5; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            $("#rangeOpinionValue").html(stars);
+        });
+
         $('#add-ingredient').on('click', function () {
             let row = `
                 <div class="row mb-3 row-ingredient">
@@ -190,3 +220,9 @@
         });
     })
 </script>
+<style>
+    .fa-star {
+        color: var(--bs-warning);
+        cursor: pointer;
+    }
+</style>
