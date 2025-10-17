@@ -162,12 +162,13 @@
                         <div class="row">
                             <div class="d-flex align-items-center">
                                 <div class="me-3 h-100 position-relative" id="avatar">
-                                    <div id="avatar-hover" class="rounded-circle h-100 w-100 position-absolute" style="background-color: rgba(0, 0, 0, 0.2); display:none">
-                                        <div class="d-flex justify-content-center align-items-center h-100 w-100">
-                                            <i class="fas fa-trash-can fa-2xl text-danger"></i>
-                                        </div>
-                                    </div>
+
                                     <?php if(isset($user) && $user->hasAvatar()): ?>
+                                        <div id="avatar-hover" class="rounded-circle h-100 w-100 position-absolute" style="background-color: rgba(0, 0, 0, 0.2); display:none">
+                                            <div class="d-flex justify-content-center align-items-center h-100 w-100">
+                                                <i class="fas fa-trash-can fa-2xl text-danger"></i>
+                                            </div>
+                                        </div>
                                         <img src="<?= isset($user) ? $user->getAvatarUrl() : base_url('assets/img/default-avatar.png') ?>"
                                              alt="Avatar"
                                              class="rounded-circle img-thumbnail" style="max-width: 100px; height: auto;">
@@ -176,7 +177,7 @@
                                     <?php endif; ?>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <input type="file" name="avatar" id="avatar" class="form-control">
+                                    <input type="file" name="avatar" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -215,6 +216,7 @@
 
 <script>
     $(document).ready(function() {
+        var base_url ='<?= base_url() ?>'
         $('#avatar').on('mouseenter', function(){
             $('#avatar-hover').toggle();
         });
@@ -234,10 +236,32 @@
                 cancelButtonText: "Annuler"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
+                    $.ajax({
+                        url: base_url + "admin/user/delete-avatar",
+                        type: "POST",
+                        data: {
+                            'id_user' : '<?= isset($user) ? $user->id : '' ?>'
+
+                        },
+                        success: function(response) {
+                        if(response.success){
+                            Swal.fire({
+                                icon : 'success',
+                                title : 'Avatar supprimé!',
+                            });
+                            $('#avatar').empty();
+                            $('#avatar').append('<p class="text-muted small">Aucun avatar</p>');
+                        } else {
+                            Swal.fire({
+                                icon : 'error',
+                                title : 'Erreur',
+                                text : reponse.message
+                            });
+                        }
+                    },
+                        error: function(xhr, status, error) {
+                            console.error(error)
+                        }
                     });
                 }
             });
