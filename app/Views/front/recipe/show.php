@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col mb-3">
         <div class="position-relative">
-            <?php if(isset($recipe['mea']['file_path'])) : ?>
-                <img src="<?= base_url($recipe['mea']['file_path']); ?>" class="img-fluid recipe-img-mea">
+            <?php if(isset($recipe['mea'])) : ?>
+                <img src="<?= $recipe['mea']->getUrl() ?>" class="img-fluid recipe-img-mea">
             <?php endif; ?>
             <div class="position-absolute top-0 start-0 bg-black w-100 h-100 opacity-25">
             </div>

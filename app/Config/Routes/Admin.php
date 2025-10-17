@@ -2,6 +2,7 @@
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'auth:administrateur'], function ($routes) {
     //Routes vers le tableau de bord
     $routes->get('dashboard', 'Admin::dashboard');
+    $routes->post('admin/user/delete-avatar', 'Admin\User::deleteAvatar', ['filter' => 'auth:administrateur']);
 
     $routes->group('user', function($routes) {
        $routes->get('/', 'User::index');
@@ -11,6 +12,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'au
        $routes->post('insert','User::insert');
        $routes->post('switch-active','User::switchActive');
        $routes->get('search', 'User::search');
+
     });
     $routes->group('user-permission', function($routes) {
        $routes->get('/', 'UserPermission::index');
